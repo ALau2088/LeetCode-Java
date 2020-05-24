@@ -16,21 +16,23 @@
  * 
  * 2->4
  * 
+ * Create even head pointer
+ * 
  * start currentoddnode 1
  * 
  * start currentevennode 2
  * 
- * currentnode
+ * set odd pointer to 3
  * 
- * set 1 pointer to 3
+ * set odd pointer to 4
  * 
- * set 2 pointer to 4
+ * set odd to 5
  * 
- * set 3 to 5
+ * set even pointer to null
  * 
- * current node is null set current odd node.next to start evennode
+ * repeat while even node is not null and even.next is not null
  * 
- * 
+ * set odd pointer to even head pointer
  * 
  * 
  * Example 2:
@@ -45,52 +47,29 @@
  * 
  * set currentevennode.next = 5 set currentevennode = 5
  * 
+ * pseudocode ---------------------------------------------
  * 
+ * create pointers for even head, current odd and current even
  * 
+ * while current even and current even next nodes are not null set next
+ * currentOddNode set next currentEvenNode
+ * 
+ * set last odd node to point to even head return head
  */
-
-// pseudocode ---------------------------------------------
-// if head is null return head
-// if head.next is null return head
-// currentnode number = 3
-// set startoddnode = head
-// set startevennode = head.next
-// set currentoddnode = startoddnode
-// set currentevennode = startevennode
-// set currentnode = head.next.next
-// loop while node is not equal to null
-// --if current node number is odd set currentoddnode.next to node
-// --if current node number is even est currentevennode.next to node
-//
-// set currentoddnode.next to startevennode
-//
-// return head
 class Solution {
   public ListNode oddEvenList(ListNode head) {
-    if (head == null || head.next == null)
+    if (head == null)
       return head;
-    int currentNumber = 3;
-    ListNode startOddNode = head;
-    ListNode startEvenNode = head.next;
-    ListNode currentOddNode = startOddNode;
-    ListNode currentEvenNode = startEvenNode;
-    ListNode currentNode = head.next.next;
+    ListNode startEvenNode = head.next, currentOddNode = head, currentEvenNode = startEvenNode;
 
-    while (currentNode != null) {
-      if (currentNumber % 2 == 0) {
-        currentEvenNode.next = currentNode;
-        currentEvenNode = currentEvenNode.next;
-      } else {
-        currentOddNode.next = currentNode;
-        currentOddNode = currentOddNode.next;
-      }
-      currentNumber += 1;
-      currentNode = currentNode.next;
+    while (currentEvenNode != null && currentEvenNode.next != null) {
+      currentOddNode.next = currentEvenNode.next;
+      currentOddNode = currentOddNode.next;
+      currentEvenNode.next = currentOddNode.next;
+      currentEvenNode = currentEvenNode.next;
     }
 
     currentOddNode.next = startEvenNode;
-    currentEvenNode.next = null;
-
     return head;
   }
 }
